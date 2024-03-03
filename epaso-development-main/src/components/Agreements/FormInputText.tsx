@@ -1,0 +1,29 @@
+import { Controller } from "react-hook-form";
+import { FormInputProps } from "./FormInputProps";
+import { TextField } from "@mui/material";
+export const FormInputText = ({ name, control, label, defaultValue }: FormInputProps) => {
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({
+        field: { onChange, value, ref },
+        fieldState: { error },
+        formState,
+      }) => (
+        <TextField
+          sx={{ mt: 1 }}
+          id={name}
+          onChange={onChange}
+          value={value}
+          fullWidth
+          disabled
+          defaultValue={defaultValue}
+          label={label}
+          type="text"
+          ref={ref}
+        />
+      )}
+    />
+  );
+};

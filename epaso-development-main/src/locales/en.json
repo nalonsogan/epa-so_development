@@ -1,0 +1,47 @@
+{
+    "login": {
+        "title": "Login",
+        "email": "Email address",
+        "password": "Password",
+        "button": "Login"
+    },
+    "createAccount":{
+        "title": "Create Account",
+        "email": "Email address",
+        "password": "Password",
+        "passwordRepeat": "Repeat password",
+        "button": "Create Account"
+    },
+    "agreements":{
+        "title": "Agreements",
+        "homeCardText": "Consult the agreements list",
+        "homeCardButton": "See detail",
+        "detail":{
+            "detailTitle": "Agreements detail"
+        }
+    },
+    "todoList":{
+        "title": "My To-do list",
+        "homeCardText": "Review the to-do list",
+        "homeCardButton": "See detail",
+        "detail":{
+            "detailTitle": "Task detail"
+        }
+    },
+    "process":{
+        "title": "My process",
+        "homeCardTitle": "My process",
+        "detail":{
+            "detailTitle": "My process"
+        }
+    },
+    "communication":{
+        "title": "Communication",
+        "textarepasolaceholder": "Answer",
+        "textareaButton": "Submit answer"
+    },
+    "masterForm":{
+        "title": "Master Form",
+        "subtitle": "Please fill up all the inputs"
+    }
+}
