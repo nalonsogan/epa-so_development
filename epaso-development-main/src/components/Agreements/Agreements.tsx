@@ -31,7 +31,6 @@ export default function Agreements() {
 
     setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
     .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/fields?$select=Title,TypeAsString,Choices,EntityPropertyName",
     {
         headers: { 
@@ -69,8 +68,7 @@ export default function Agreements() {
 
     setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
-    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+providerData.ID+")",
+    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+providerData.SupplierIDId+")",
 
     {
         headers: { 
@@ -87,26 +85,18 @@ export default function Agreements() {
       
       if(response.data.d['OData__x0031__000_Status']==="Authorized"){
       for(var i=0; i<fields.length; i++){
-        // if(!fields[i].EntityPropertyName.includes("1_")){
           if(!fields[i].EntityPropertyName.includes("1_") && (fields[i].EntityPropertyName.includes(dataCode) || fields[i].EntityPropertyName.includes("000"))){
-            console.log("dataCode en for: " + dataCode + " y fields["+i+"] = " + fields[i].EntityPropertyName)
-            
-            console.log("Entra en condicion: ")
             finalFields.push({type: fields[i].TypeAsString, name:fields[i].Title, internalName:fields[i].EntityPropertyName, value:response.data.d[fields[i].EntityPropertyName]})
-            // finalFields[i] = {type: fields[i].TypeAsString, name:fields[i].Title, internalName:fields[i].EntityPropertyName, value:response.data.d[fields[i].EntityPropertyName]}
-            console.log("internalName: " + fields[i].EntityPropertyName + " type: " + fields[i].TypeAsString)
           }
       }
 
-      console.log("R: ",respuesta)
-      console.log("finalFields: ", finalFields)
       setDataForm(finalFields)
 
     }
       else{
         setErrorServiceAuth(true)
       }
-      // setDataForm(response.data.formFields)
+
     })
     .catch(function (error) {
       if(error.response.status == 401){
