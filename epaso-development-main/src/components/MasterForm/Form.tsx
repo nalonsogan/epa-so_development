@@ -48,7 +48,7 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
     setErrorService(false)
     //GetVendorData
     axios
-    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items("+dataProcess.ID+")?$select=InternalAccountableID/Title&$expand=InternalAccountableID/Title",
+    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items("+dataProcess.ID+")?$select=SupplierIDId,InternalAccountableID/Title&$expand=InternalAccountableID/Title",
     {
         headers: { 
           'Accept':'application/json;odata=verbose',
@@ -61,11 +61,8 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
     )
     .then((response) => {
       //Con el vendor Ok, hacemos un update del formulario
-      console.log("responsible: ", response.data.d.InternalAccountableID.Title)
-      console.log("answer: " + answer + " longitud: " + answer.length)
-
       axios
-      .post("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+dataProvider.ID+")",
+      .post("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+response.data.d.SupplierIDId+")",
 
       checkTypesData,{
           headers: { 
@@ -98,7 +95,7 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
           dataAux.append('file', file)
           dataAux.append('name', file.name)
           axios
-          .post("https://alonsogan.sharepoint.com/sites/suppliers/SuppliersDocumentation/" + dataProvider.ID, dataAux,
+          .post("http://20.254.101.28:20100/providers/saveDocument/" + businessUnit + "/" + dataProvider.SupplierIDId, dataAux,
           {
               headers: { 
                 'Content-Type': 'multipart/form-data'
@@ -124,7 +121,7 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
     let responsibleAux = ''
     if(objetCounter === 0){
       draftOrSave = 'Pending data review'
-      responsibleAux = vendor
+      responsibleAux = vendor.d.InternalAccountableID.Title
     } else {
       draftOrSave = 'Draft'
       responsibleAux = 'supplier'
@@ -160,15 +157,15 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
     let objectAux:any = {}
     let counter : number = 0;
     fields.map((field:any) => {
-      console.log("field en Form Supplier -> ", field)
+      // console.log("field en Form Supplier -> ", field)
       Object.keys(data).map((key:any) => {
-        console.log("data en FORM: ", data)
-        console.log("key en FORM: ", key)
+        // console.log("data en FORM: ", data)
+        // console.log("key en FORM: ", key)
         // const nameFull = field.fullName;
         const nameFull = field.internalName;
-        console.log("nameFull en FORM: ", nameFull)
-        console.log("field.name en FORM: ", field.name)
-        console.log("data[key] -> ", data[key])
+        // console.log("nameFull en FORM: ", nameFull)
+        // console.log("field.name en FORM: ", field.name)
+        // console.log("data[key] -> ", data[key])
         if(key === field.name && data[key] === undefined){
           if(field.value == null){
             objectAux[nameFull] = ''
@@ -188,8 +185,8 @@ export const Form = ({ fields, dataFiles, dataProvider, dataProcess }: any) => {
     fields.map((field:any) => {
       console.log("field en checkType: ", field)
       Object.keys(dataP).map((keyP:any) => {
-        console.log("dataP: ", dataP)
-        console.log("KeyP: ", keyP)
+        // console.log("dataP: ", dataP)
+        // console.log("KeyP: ", keyP)
 
         if(field.fullName == keyP){
           switch (field.type) {
