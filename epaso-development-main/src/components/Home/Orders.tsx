@@ -40,8 +40,7 @@ export default function Orders() {
   
      setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
-    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items?$filter=SupplierIDId eq "+providerData.ID+"&$select=ProcessType,Created,Modified,StatusProcess,Responsible,ID&$orderby=Modified desc",
+    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items?$filter=SupplierIDId eq "+providerData.SupplierIDId+"&$select=ProcessType,Created,Modified,StatusProcess,Responsible,ID&$orderby=Modified desc",
     {
         headers: { 
           'Accept':'application/json;odata=verbose',
@@ -51,18 +50,13 @@ export default function Orders() {
           'X-HTTP-Method':'MERGE'
         }
     })
-    .then((response) => {
-      console.log("response=> " , response.data.d.results)
-      
+    .then((response) => {      
       setProcessList(response.data.d.results)
-  
-      
     })
     .catch(function (error) {
       setErrorService(true)
     })
-  
-      
+       
      }, 500);
 
   },[]);
