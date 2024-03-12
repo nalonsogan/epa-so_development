@@ -35,7 +35,6 @@ export default function MasterForm() {
 
     setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
     .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/fields?$select=Title,TypeAsString,Choices,EntityPropertyName",
     {
         headers: { 
@@ -47,20 +46,11 @@ export default function MasterForm() {
         }
     })
     .then((response) => {
-      // console.log("response en fields: ", response.data.d.results)
-      // console.log("response en agreements: ", response.data.d['OData__x0030__000_Name'])
-
-      Object.keys(response.data.d.results).map((k,v)=>(
-        // console.log("key: " + k + " value: " + response.data.d[k] )
-        // console.log("key: " + k + " value: " + response.data.d[k] + " type: " + response.data.d[k].type)
-        // console.log("fields: " + k)
-        
+      Object.keys(response.data.d.results).map((k,v)=>(       
         fields[v]=response.data.d.results[k]
-        
       ))
-      console.log("fields en agreements: ",fields)
-      // setDataForm(respuesta)
-      // setDataForm(response.data.formFields)
+      //console.log("fields en agreements: ",fields)
+
     })
     .catch(function (error) {
       if(error.response.status == 401){
@@ -81,8 +71,7 @@ export default function MasterForm() {
 
     setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
-    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+providerData.ID+")",
+    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Suppliers')/items("+providerData.SupplierIDId+")",
 
     {
         headers: { 
@@ -94,38 +83,31 @@ export default function MasterForm() {
         }
     })
     .then((response) => {
-      console.log("response en agreements: ", response.data.d.OData__x0030__000_Name)
-      console.log("response en agreements: ", response.data.d['OData__x0030__000_Name'])
+      // console.log("response en agreements: ", response.data.d['OData__x0030__000_Name'])
       setDataCode(response.data.d['OData__x0031__000_SupplierCode'])
   
-      console.log("longitud fields: " + fields.length)
-      console.log("authorized? " + response.data.d['OData__x0031__000_Status'])
+      // console.log("longitud fields: " + fields.length)
+      // console.log("authorized? " + response.data.d['OData__x0031__000_Status'])
       if(response.data.d['OData__x0031__000_Status']==="Not Authorized"){
       for(var i=0; i<fields.length; i++){
         // if(!fields[i].EntityPropertyName.includes("1_")){
           if(!fields[i].EntityPropertyName.includes("1_") && (fields[i].EntityPropertyName.includes(dataCode) || fields[i].EntityPropertyName.includes("000"))){
-            console.log("dataCode en for: " + dataCode + " y fields["+i+"] = " + fields[i].EntityPropertyName)
+            // console.log("dataCode en for: " + dataCode + " y fields["+i+"] = " + fields[i].EntityPropertyName)
             
-            console.log("Entra en condicion: ")
+            // console.log("Entra en condicion: ")
             finalFields.push({type: fields[i].TypeAsString, name:fields[i].Title, internalName:fields[i].EntityPropertyName, value:response.data.d[fields[i].EntityPropertyName]})
-            // finalFields[i] = {type: fields[i].TypeAsString, name:fields[i].Title, internalName:fields[i].EntityPropertyName, value:response.data.d[fields[i].EntityPropertyName]}
-            console.log("internalName: " + fields[i].EntityPropertyName + " type: " + fields[i].TypeAsString)
+            
+            // console.log("internalName: " + fields[i].EntityPropertyName + " type: " + fields[i].TypeAsString)
           }
         // }
       }
-      // Object.keys(fields).map((k,v)=>(
-      //   // console.log("key: " + k + " value: " + response.data.d[k] )
-      //   // console.log("key: " + k + " value: " + response.data.d[k] + " type: " + response.data.d[k].type)
-        
-        // respuesta[v]={k:k,v:response.data.d[k]}
-        
-      // ))
+
 
       console.log("finalFields: ", finalFields)
       setDataForm(finalFields)
 
     }
-      // setDataForm(response.data.formFields)
+      
     })
     .catch(function (error) {
       if(error.response.status == 401){
@@ -142,9 +124,9 @@ export default function MasterForm() {
 
   }, []);
 
-  console.log("fields en master form: ", dataForm)
-  console.log("dataProvider en master form: ", dataProvider)
-  console.log("dataProcess en master form: ", dataProcess)
+  // console.log("fields en master form: ", dataForm)
+  // console.log("dataProvider en master form: ", dataProvider)
+  // console.log("dataProcess en master form: ", dataProcess)
   return (
       <Container component="main" maxWidth="lg">
         <CssBaseline />
