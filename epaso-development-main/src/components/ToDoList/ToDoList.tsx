@@ -45,12 +45,11 @@ export default function ToDoList() {
     setErrorService(false)
     const businessUnit = localStorage.getItem('businessUnit');
     const providerData = JSON.parse(localStorage.getItem('data') || '{}')
-    console.log("provider data ", providerData.ID )
+    // console.log("provider data ", providerData.SupplierIDId )
 
     setTimeout(() => {
       axios
-    //"https://alonsogan.sharepoint.com/sites/" + comboOption + "...",
-    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items?$filter=SupplierIDId eq "+providerData.ID+" and (StatusProcess eq 'Email sent to supplier' or StatusProcess eq 'Draft' or StatusProcess eq 'Open' or StatusProcess eq 'Reopened')&$select=ProcessType,Created,Modified,StatusProcess,Responsible,ID&$orderby=Modified desc",
+    .get("https://alonsogan.sharepoint.com/sites/suppliers/_api/web/lists/GetByTitle('Process')/items?$filter=SupplierIDId eq "+providerData.SupplierIDId+" and (StatusProcess eq 'Email sent to supplier' or StatusProcess eq 'Draft' or StatusProcess eq 'Open' or StatusProcess eq 'Reopened')&$select=ProcessType,Created,Modified,StatusProcess,Responsible,ID&$orderby=Modified desc",
     {
         headers: { 
           'Accept':'application/json;odata=verbose',
@@ -75,10 +74,6 @@ export default function ToDoList() {
     }, 500);
 
   },[]);
-
-
-
-  
 
   const [processList, setProcessList] = useState<any>([]);
   const [errorService, setErrorService] = useState(false);
